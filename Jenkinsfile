@@ -26,7 +26,17 @@ userRemoteConfigs: [[url: 'https://github.com/aalapkotekar/repo1.git']]])
     	sh 'cp target/Helloworldwebapp.war /opt/tomcat/webapps/'
     }
     
-    mail bcc: '', body: 'job run', cc: '', from: '', replyTo: '', subject: 'jenkins notification', to: 'aalapkotekar@gmail.com'
-
+	notify('Deploy done')
     
 }
+
+def notify(status) {
+  mail (
+        body:"""${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':
+                 Check console output at, 
+                 href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]""",
+        cc: '', 
+        subject: """JenkinsNotification: ${status}:""", 
+        to: 'aalapkotekar@gmail.com'  
+       ) 
+ }
